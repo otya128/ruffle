@@ -289,6 +289,14 @@ impl RuffleHandle {
         let _ = self.with_core_mut(|core| core.set_volume(value));
     }
 
+    pub fn goto_frame(&mut self, frame: u16, stop: bool) {
+        self.with_core_mut(|core| core.goto_frame(frame, stop));
+    }
+
+    pub fn current_frame(&self) -> u16 {
+        self.with_core(|core| core.current_frame()).unwrap_or_default().unwrap_or_default()
+    }
+
     pub fn renderer_debug_info(&self) -> JsValue {
         self.with_core(|core| JsValue::from_str(&core.renderer().debug_info()))
             .unwrap_or(JsValue::NULL)

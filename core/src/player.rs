@@ -751,6 +751,17 @@ impl Player {
             mc.next_frame(context);
         }
     }
+    pub fn goto_frame(&mut self, frame: u16, stop: bool) {
+        self.mutate_with_update_context(|context| {   
+            if let Some(mc) = context
+                .stage
+                .root_clip()
+                .and_then(|root| root.as_movie_clip())
+            {
+                mc.goto_frame(context, frame, stop)
+            }
+        });
+    }
     fn back_root_movie(context: &mut UpdateContext<'_, '_>) {
         if let Some(mc) = context
             .stage
