@@ -281,6 +281,10 @@ impl RuffleHandle {
         self.with_core(|core| core.is_playing()).unwrap_or_default()
     }
 
+    pub fn is_movie_clip_playing(&mut self) -> bool {
+        self.with_core_mut(|core| core.is_movie_clip_playing()).unwrap_or_default().unwrap_or_default()
+    }
+
     pub fn volume(&self) -> f32 {
         self.with_core(|core| core.volume()).unwrap_or_default()
     }
@@ -290,7 +294,15 @@ impl RuffleHandle {
     }
 
     pub fn goto_frame(&mut self, frame: u16, stop: bool) {
-        self.with_core_mut(|core| core.goto_frame(frame, stop));
+        let _ = self.with_core_mut(|core| core.goto_frame(frame, stop));
+    }
+
+    pub fn play_movie_clip(&mut self) {
+        let _ = self.with_core_mut(|core| core.play_movie_clip());
+    }
+
+    pub fn pause_movie_clip(&mut self) {
+        let _ = self.with_core_mut(|core| core.pause_movie_clip());
     }
 
     pub fn current_frame(&self) -> u16 {

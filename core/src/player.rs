@@ -762,6 +762,41 @@ impl Player {
             }
         });
     }
+    pub fn is_movie_clip_playing(&mut self) -> Option<bool> {
+        self.mutate_with_update_context(|context| {
+            if let Some(mc) = context
+                .stage
+                .root_clip()
+                .and_then(|root| root.as_movie_clip())
+            {
+                Some(mc.playing())
+            } else {
+                None
+            }
+        })
+    }
+    pub fn play_movie_clip(&mut self) {
+        self.mutate_with_update_context(|context| {
+            if let Some(mc) = context
+                .stage
+                .root_clip()
+                .and_then(|root| root.as_movie_clip())
+            {
+                mc.play(context);
+            }
+        });
+    }
+    pub fn pause_movie_clip(&mut self) {
+        self.mutate_with_update_context(|context| {
+            if let Some(mc) = context
+                .stage
+                .root_clip()
+                .and_then(|root| root.as_movie_clip())
+            {
+                mc.stop(context);
+            }
+        });
+    }
     fn back_root_movie(context: &mut UpdateContext<'_, '_>) {
         if let Some(mc) = context
             .stage
